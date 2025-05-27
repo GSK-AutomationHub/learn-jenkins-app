@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     stages {
+        // commented 'Build' stage as 'Test' stage an run independantly to save time
+        /*
         stage('Build') {
             agent{
                 docker{
@@ -19,7 +21,7 @@ pipeline {
                     ls -la
                 '''
             }
-        }
+        } */
         stage('Test'){
             agent{
                 docker{
@@ -34,6 +36,11 @@ pipeline {
                     npm test
                 '''
             }
+        }
+    }
+    post {
+        always{
+           junit 'test-results/junit.xml'
         }
     }
 }
